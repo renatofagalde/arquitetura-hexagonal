@@ -1,0 +1,18 @@
+server:
+  port: 8080
+notificador:
+  email:
+    host-servidor: fake.likwi.com.br
+    host-porta: 25
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  application:
+    name: arquitetura-hexagonal
+management:
+  endpoints:
+    web:
+      exposure:
+        include: mappings
