@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3310/sandbox?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
+    password: 123456
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+notificador:
+  email:
+    host-servidor: smtp.local.likwi.com.br
+    host-porta: 25
