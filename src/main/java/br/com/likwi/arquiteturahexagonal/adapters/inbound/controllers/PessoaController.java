@@ -31,7 +31,7 @@ public class PessoaController {
                                                       @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
         List<PessoaDomain> pessoas = this.pessoaServicePort.listar(nome,
-                new PageManual(pageable.getPageSize(), pageable.getPageSize()));
+                new PageManual(pageable.getPageNumber(), pageable.getPageSize()));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new PageImpl<PessoaDomain>(pessoas, pageable, pessoas.size()));
     }
