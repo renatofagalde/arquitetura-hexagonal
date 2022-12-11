@@ -10,15 +10,11 @@ public class PessoaDomain {
 
     private char sexo;
 
-    public Long getId() {
-        return id;
+    public PessoaDomain() {
     }
 
-    public PessoaDomain(Long id, String nome, String email,char sexo) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.sexo=sexo;
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
