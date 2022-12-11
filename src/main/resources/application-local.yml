@@ -1,12 +1,12 @@
 server:
-  port: 8080
+  port : 9090
 spring:
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3311/sandbox?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
-    password: 123456
+    url: jdbc:mysql://localhost:10000/sandbox?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
+    password: ${MYSQLDB_ROOT_PASSWORD}
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     show-sql: true
     hibernate:
       ddl-auto: create-drop

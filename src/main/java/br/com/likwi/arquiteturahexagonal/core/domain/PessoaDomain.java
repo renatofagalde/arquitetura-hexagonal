@@ -8,14 +8,17 @@ public class PessoaDomain {
 
     private String email;
 
+    private char sexo;
+
     public Long getId() {
         return id;
     }
 
-    public PessoaDomain(Long id, String nome, String email) {
+    public PessoaDomain(Long id, String nome, String email,char sexo) {
         this.id = id;
         this.nome = nome;
         this.email = email;
+        this.sexo=sexo;
     }
 
     public void setId(Long id) {
@@ -36,5 +39,13 @@ public class PessoaDomain {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public char getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(char sexo) {
+        this.sexo = sexo;
     }
 }

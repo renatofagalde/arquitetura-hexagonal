@@ -14,5 +14,10 @@ public interface PessoaJpaRepository extends JpaRepository<PessoaEntity, Long> {
 	@Query("SELECT p FROM PessoaEntity p WHERE p.nome like %:nome%")
 	Page<PessoaEntity> findAllByNome(@Param("nome") String nome, Pageable pageable);
 
+	@Query("FROM PessoaEntity p WHERE p.sexo = 'M'")
+	Page<PessoaEntity> findMale(Pageable pageable);
+
+	@Query("FROM PessoaEntity p WHERE p.sexo = 'F'")
+	Page<PessoaEntity> findFemale(Pageable pageable);
 
 }

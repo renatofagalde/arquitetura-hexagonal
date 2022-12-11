@@ -6,6 +6,8 @@ import br.com.likwi.arquiteturahexagonal.core.domain.PessoaDomain;
 import br.com.likwi.arquiteturahexagonal.core.ports.PessoaPersistencePort;
 import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +33,7 @@ public class PessoaPersistencePortImpl implements PessoaPersistencePort {
 
         return this.pessoaJPARepository.findAllByNome(nome, pageable)
                 .stream()
-                .map(entity -> new PessoaDomain(entity.getId(), entity.getNome(), entity.getEmail()))
+                .map(entity -> new PessoaDomain(entity.getId(), entity.getNome(), entity.getEmail(), entity.getSexo()))
                 .collect(Collectors.toList());
 
     }
@@ -40,7 +42,7 @@ public class PessoaPersistencePortImpl implements PessoaPersistencePort {
     public PessoaDomain buscar(Long id) {
 
         return this.pessoaJPARepository.findById(id)
-                .map(entity -> new PessoaDomain(entity.getId(), entity.getNome(), entity.getEmail()))
+                .map(entity -> new PessoaDomain(entity.getId(), entity.getNome(), entity.getEmail(), entity.getSexo()))
                 .orElseThrow(() -> new ObjectNotFoundException(1,"Id não localizado"));
 
     }
