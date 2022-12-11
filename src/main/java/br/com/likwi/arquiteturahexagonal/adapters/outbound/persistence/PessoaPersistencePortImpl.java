@@ -6,6 +6,8 @@ import br.com.likwi.arquiteturahexagonal.core.domain.PessoaDomain;
 import br.com.likwi.arquiteturahexagonal.core.ports.PessoaPersistencePort;
 import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +20,11 @@ import java.util.stream.Collectors;
 public class PessoaPersistencePortImpl implements PessoaPersistencePort {
 
     private final PessoaJpaRepository pessoaJPARepository;
-//    private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    public PessoaPersistencePortImpl(PessoaJpaRepository pessoaJPARepository) {
+    public PessoaPersistencePortImpl(ModelMapper modelMapper, PessoaJpaRepository pessoaJPARepository) {
         this.pessoaJPARepository = pessoaJPARepository;
-//        this.modelMapper = modelMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class PessoaPersistencePortImpl implements PessoaPersistencePort {
 
         return this.pessoaJPARepository.findAllByNome(nome, pageable)
                 .stream()
-                .map(entity -> new PessoaDomain(entity.getId(), entity.getNome(), entity.getEmail()))
+                .map(entity -> this.modelMapper.map(entity, PessoaDomain.class))
                 .collect(Collectors.toList());
 
     }
@@ -40,7 +42,7 @@ public class PessoaPersistencePortImpl implements PessoaPersistencePort {
     public PessoaDomain buscar(Long id) {
 
         return this.pessoaJPARepository.findById(id)
-                .map(entity -> new PessoaDomain(entity.getId(), entity.getNome(), entity.getEmail()))
+                .map(entity -> this.modelMapper.map(entity, PessoaDomain.class))
                 .orElseThrow(() -> new ObjectNotFoundException(1,"Id não localizado"));
 
     }

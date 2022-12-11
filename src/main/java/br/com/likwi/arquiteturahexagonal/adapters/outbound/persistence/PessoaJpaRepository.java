@@ -11,8 +11,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PessoaJpaRepository extends JpaRepository<PessoaEntity, Long> {
 
-	@Query("SELECT p FROM PessoaEntity p WHERE p.nome like %:nome%")
+	@Query("FROM PessoaEntity p WHERE p.nome like %:nome%")
 	Page<PessoaEntity> findAllByNome(@Param("nome") String nome, Pageable pageable);
 
+	@Query("FROM PessoaEntity p WHERE p.sexo = 'M' and p.nome like %:nome%")
+	Page<PessoaEntity> findMale(@Param("nome") String nome, Pageable pageable);
+
+	@Query("FROM PessoaEntity p WHERE p.sexo = 'F' and p.nome like %:nome%")
+	Page<PessoaEntity> findFemale(@Param("nome") String nome, Pageable pageable);
 
 }

@@ -1,6 +1,0 @@
-server:
-  port: 8080
-notificador:
-    email:
-        host-servidor: smtp.dev.likwi.com.br
-        host-porta: 25

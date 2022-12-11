@@ -4,7 +4,6 @@ package br.com.likwi.arquiteturahexagonal.adapters.inbound.controllers;
 import br.com.likwi.arquiteturahexagonal.core.domain.PageManual;
 import br.com.likwi.arquiteturahexagonal.core.domain.PessoaDomain;
 import br.com.likwi.arquiteturahexagonal.core.ports.PessoaListarServicePort;
-import br.com.likwi.arquiteturahexagonal.core.ports.PessoaServicePort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -17,40 +16,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/pessoas")
-public class PessoaController {
+@RequestMapping(value = "/listar")
+public class PessoaListarController {
 
-    private final PessoaServicePort pessoaServicePort;
+    //setting spring.main.allow-circular-references
+    private final PessoaListarServicePort pessoaListarServicePort;
 
-
-    public PessoaController(PessoaServicePort pessoaServicePort) {
-        this.pessoaServicePort = pessoaServicePort;
+    public PessoaListarController(PessoaListarServicePort pessoaListarServicePort) {
+        this.pessoaListarServicePort = pessoaListarServicePort;
     }
 
-
-    @GetMapping(value = "{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{nome}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<PessoaDomain>> pessoas(@PathVariable("nome") String nome,
+                                                      @RequestParam(value = "tipo", defaultValue = "M") String tipo,
                                                       @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        List<PessoaDomain> pessoas = this.pessoaServicePort.listar(nome,
+        List<PessoaDomain> pessoas = this.pessoaListarServicePort.listar(tipo, nome,
                 new PageManual(pageable.getPageNumber(), pageable.getPageSize()));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new PageImpl<PessoaDomain>(pessoas, pageable, pessoas.size()));
-    }
-
-
-    @GetMapping(value = "/id/{pessoa_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PessoaDomain> buscar(@PathVariable("pessoa_id") Long pessoaId) {
-
-        PessoaDomain pessoa = this.pessoaServicePort.buscar(pessoaId);
-        return pessoa == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pessoa);
-    }
-
-    @PostMapping
-    public ResponseEntity<PessoaDomain> salvar(@RequestBody PessoaDomain pessoa) {
-
-        pessoa = this.pessoaServicePort.salvar(pessoa);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pessoa);
-
     }
 }
